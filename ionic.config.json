@@ -1,0 +1,7 @@
+{
+  "name": "Annotator",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}

@@ -1,9 +1,56 @@
-import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
-import './Tab1.css';
+import React, { useEffect, useState } from "react"
+import {
+  IonCol,
+  IonContent,
+  IonGrid,
+  IonHeader,
+  IonPage,
+  IonRow,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/react"
+import "./Tab1.css"
+import Laskuri from "../components/Laskuri"
+
+export interface ILaskuri {
+  laskuriId: string
+  fields: {
+    name: string
+    defaultValue: number
+    currentValue?: number
+  }[]
+  formula: string
+  result: number
+}
 
 const Tab1: React.FC = () => {
+  // compined laskuri results
+  const [laskurit, setLaskurit] = useState<ILaskuri[]>([])
+
+  // initialising the laskurit array
+  useEffect(() => {
+    setLaskurit(
+      ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"].map((laskuriId) => ({
+        laskuriId,
+        formula: `x + y + ${laskuriId}`,
+        result: 0,
+        fields: [
+          { name: "x", defaultValue: 0 },
+          { name: "y", defaultValue: 0 },
+        ],
+      }))
+    )
+  }, [])
+
+  const handleLaskuriChange = (laskuriId: string, result: number) => {
+    // updating the result of the laskuri with the given laskuriId
+    setLaskurit((prevLaskurit) =>
+      prevLaskurit.map((laskuri) =>
+        laskuri.laskuriId === laskuriId ? { ...laskuri, result } : laskuri
+      )
+    )
+  }
+
   return (
     <IonPage>
       <IonHeader>
@@ -17,10 +64,26 @@ const Tab1: React.FC = () => {
             <IonTitle size="large">Tab 1</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <ExploreContainer name="Tab 1 page" />
+        <IonGrid>
+          <IonRow>
+            <IonCol>
+              {laskurit.map((laskuri) => (
+                <Laskuri
+                  key={laskuri.laskuriId}
+                  laskuri={laskuri}
+                  onLaskuriChange={handleLaskuriChange}
+                />
+              ))}
+            </IonCol>
+            <IonCol>
+              <div>Yhteensä</div>
+              <div>{laskurit.reduce((acc, { result }) => acc + result, 0)}</div>
+            </IonCol>
+          </IonRow>
+        </IonGrid>
       </IonContent>
     </IonPage>
-  );
-};
+  )
+}
 
-export default Tab1;
+export default Tab1

@@ -37,7 +37,7 @@ const Tab1: React.FC = () => {
     setLaskurit(
       ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"].map((laskuriId) => ({
         laskuriId,
-        formula: `(x + y + ${laskuriId}) * a`,
+        formula: laskuriId !== "6" ? `(x + y + ${laskuriId}) * a` : `(x + y + ${laskuriId}) * a + c`,
         result: 0,
         fields: [
           { name: "x", defaultValue: 0 },

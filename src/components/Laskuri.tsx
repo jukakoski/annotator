@@ -4,7 +4,7 @@ import { ILaskuri } from "../pages/Tab1"
 import useCalculator from "../hooks/useCalculator"
 
 const Laskuri: React.FC<LaskuriProps> = ({ laskuri, onLaskuriChange }) => {
-  const { result, inputFields, onFieldChange } = useCalculator({
+  const { result, inputFields, onFieldChange, status, errorMessage } = useCalculator({
     laskuriId: laskuri.laskuriId,
     fields: laskuri.fields,
     variables: laskuri.variables,
@@ -13,7 +13,7 @@ const Laskuri: React.FC<LaskuriProps> = ({ laskuri, onLaskuriChange }) => {
   })
 
   return (
-    <>
+    <div style={{marginBottom: '1rem', padding: '0.5rem', backgroundColor: status === "error" ? "red" : undefined}} >
       <br />
       <div>{`Laskuri ${laskuri.laskuriId}`}</div>
       <div>
@@ -32,7 +32,8 @@ const Laskuri: React.FC<LaskuriProps> = ({ laskuri, onLaskuriChange }) => {
         />
       ))}
       <div>{`Tulos: ${result}`}</div>
-    </>
+      {status === "error" && <div>Virhe: {errorMessage}</div>}
+    </div>
   )
 }
 

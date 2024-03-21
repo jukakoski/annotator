@@ -19,6 +19,11 @@ export interface ILaskuri {
     defaultValue: number
     currentValue?: number
   }[]
+  variables: {
+    name: string
+    defaultValue: number
+    currentValue?: number
+  }[]
   formula: string
   result: number
 }
@@ -32,12 +37,13 @@ const Tab1: React.FC = () => {
     setLaskurit(
       ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"].map((laskuriId) => ({
         laskuriId,
-        formula: `x + y + ${laskuriId}`,
+        formula: `(x + y + ${laskuriId}) * a`,
         result: 0,
         fields: [
           { name: "x", defaultValue: 0 },
           { name: "y", defaultValue: 0 },
         ],
+        variables: [{ name: "a", defaultValue: 15 }],
       }))
     )
   }, [])

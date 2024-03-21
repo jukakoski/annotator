@@ -9,6 +9,9 @@ test("renders Laskuri component", () => {
       { name: "field1", currentValue: 10, defaultValue: 0 },
       { name: "field2", currentValue: 20, defaultValue: 0 },
     ],
+    variables: [
+      { name: "a", currentValue: 10, defaultValue: 0 },
+    ],
     formula: "field1 + field2 + 5",
     result: 0,
   }
@@ -44,6 +47,9 @@ test("updates field value and result on input change", () => {
     fields: [
       { name: "field1", currentValue: 10, defaultValue: 0 },
       { name: "field2", currentValue: 20, defaultValue: 0 },
+    ],
+    variables: [
+      { name: "a", currentValue: 10, defaultValue: 0 },
     ],
     formula: "field1 + field2",
     result: 0,

@@ -32,18 +32,25 @@ const Tab1: React.FC = () => {
   // compined laskuri results
   const [laskurit, setLaskurit] = useState<ILaskuri[]>([])
 
+  const [variables, setVariables] = useState<
+    { name: string; defaultValue: number; currentValue: number }[]
+  >([])
+
   // initialising the laskurit array
   useEffect(() => {
     setLaskurit(
       ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"].map((laskuriId) => ({
         laskuriId,
-        formula: laskuriId !== "6" ? `(x + y + ${laskuriId}) * a` : `(x + y + ${laskuriId}) * a + c`,
+        formula:
+          laskuriId !== "6"
+            ? `(x + y + ${laskuriId})`
+            : `(x + y + ${laskuriId}) + result_1`,
         result: 0,
         fields: [
           { name: "x", defaultValue: 0 },
           { name: "y", defaultValue: 0 },
         ],
-        variables: [{ name: "a", defaultValue: 15 }],
+        variables: variables // [{ name: "a", defaultValue: 15 }],
       }))
     )
   }, [])
@@ -56,6 +63,25 @@ const Tab1: React.FC = () => {
       )
     )
   }
+
+
+  useEffect(() => {
+    // convert results to variable
+    const newVariables: {
+      name: string
+      defaultValue: number
+      currentValue: number
+    }[] = []
+    for (const laskuri of laskurit) {
+      newVariables.push({
+        name: `result_${laskuri.laskuriId}`,
+        currentValue: laskuri.result,
+        defaultValue: 0,
+      })
+    }
+
+    setVariables(newVariables)
+  }, [laskurit])
 
   return (
     <IonPage>
@@ -84,6 +110,19 @@ const Tab1: React.FC = () => {
             <IonCol>
               <div>Yhteensä</div>
               <div>{laskurit.reduce((acc, { result }) => acc + result, 0)}</div>
+
+              <div>Summalaskuri</div>
+              <Laskuri
+                key="jeejee"
+                laskuri={{
+                  laskuriId: "total",
+                  formula: "result_3 + result_2",
+                  result: 0,
+                  fields: [],
+                  variables: variables,
+                }}
+                onLaskuriChange={() => console.log("total muutos")}
+              />
             </IonCol>
           </IonRow>
         </IonGrid>

@@ -4,6 +4,9 @@ import {
   IonContent,
   IonGrid,
   IonHeader,
+  IonItem,
+  IonList,
+  IonListHeader,
   IonPage,
   IonRow,
   IonTitle,
@@ -12,10 +15,16 @@ import {
 import "./Tab1.css"
 import Laskuri from "../components/Laskuri"
 
+export enum InputTypes {
+  NORMAL = "normal",
+  SLIDER = "slider"
+}
+
 export interface ILaskuri {
   laskuriId: string
   fields: {
     name: string
+    type: InputTypes
     defaultValue: number
     currentValue?: number
   }[]
@@ -41,16 +50,17 @@ const Tab1: React.FC = () => {
     setLaskurit(
       ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"].map((laskuriId) => ({
         laskuriId,
+        type: "normal",
         formula:
           laskuriId !== "6"
             ? `(x + y + ${laskuriId})`
             : `(x + y + ${laskuriId}) + result_1`,
         result: 0,
         fields: [
-          { name: "x", defaultValue: 0 },
-          { name: "y", defaultValue: 0 },
+          { name: "x", defaultValue: 0, type: laskuriId !== "2" ? InputTypes.NORMAL : InputTypes.SLIDER },
+          { name: "y", defaultValue: 0, type: InputTypes.NORMAL},
         ],
-        variables: variables // [{ name: "a", defaultValue: 15 }],
+        variables: variables, // [{ name: "a", defaultValue: 15 }],
       }))
     )
   }, [])
@@ -63,7 +73,6 @@ const Tab1: React.FC = () => {
       )
     )
   }
-
 
   useEffect(() => {
     // convert results to variable
@@ -87,7 +96,7 @@ const Tab1: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Tab 1</IonTitle>
+          <IonTitle>Laskurit</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -123,6 +132,16 @@ const Tab1: React.FC = () => {
                 }}
                 onLaskuriChange={() => console.log("total muutos")}
               />
+            </IonCol>
+            <IonCol>
+              <IonList>
+                <IonListHeader>Muuttujat</IonListHeader>
+              </IonList>
+              {variables.map((variable) => (
+                <IonItem key={variable.name}>
+                  {variable.name}: {variable.currentValue}
+                </IonItem>
+              ))}
             </IonCol>
           </IonRow>
         </IonGrid>

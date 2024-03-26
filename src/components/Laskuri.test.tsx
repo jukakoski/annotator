@@ -1,13 +1,14 @@
 import React from "react"
 import { render, fireEvent } from "@testing-library/react"
 import Laskuri from "./Laskuri"
+import { InputTypes } from "../pages/Tab1"
 
 test("renders Laskuri component", () => {
   const laskuri = {
     laskuriId: "1",
     fields: [
-      { name: "field1", currentValue: 10, defaultValue: 0 },
-      { name: "field2", currentValue: 20, defaultValue: 0 },
+      { name: "field1", currentValue: 10, defaultValue: 0, type: InputTypes.NORMAL },
+      { name: "field2", currentValue: 20, defaultValue: 0, type: InputTypes.NORMAL },
     ],
     variables: [
       { name: "a", currentValue: 10, defaultValue: 0 },
@@ -45,8 +46,8 @@ test("updates field value and result on input change", () => {
   const laskuri = {
     laskuriId: "1",
     fields: [
-      { name: "field1", currentValue: 10, defaultValue: 0 },
-      { name: "field2", currentValue: 20, defaultValue: 0 },
+      { name: "field1", currentValue: 10, defaultValue: 0, type: InputTypes.NORMAL },
+      { name: "field2", currentValue: 20, defaultValue: 0, type: InputTypes.NORMAL },
     ],
     variables: [
       { name: "a", currentValue: 10, defaultValue: 0 },

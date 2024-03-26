@@ -1,5 +1,6 @@
 import { parser } from "mathjs"
 import { useEffect, useState } from "react"
+import { InputTypes } from "../pages/Tab1"
 
 const useCalculator = ({
     laskuriId,
@@ -80,6 +81,7 @@ interface UseCalculator {
     laskuriId: string
     fields: {
         name: string
+        type: InputTypes
         defaultValue: number
         currentValue?: number | undefined
     }[]
